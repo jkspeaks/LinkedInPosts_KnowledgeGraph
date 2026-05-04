@@ -418,6 +418,157 @@
     font-size: 11px;
   }
   .faq-controls ul li strong { color: var(--text-primary); }
+
+  /* ── Chatbot FAB ──────────────────────────────────────────── */
+  #chat-fab {
+    position: fixed; bottom: 82px; right: 20px; z-index: 400;
+    background: rgba(7,12,24,0.75); backdrop-filter: blur(10px);
+    border: 1px solid var(--border); border-radius: 8px;
+    padding: 8px 14px 7px; cursor: pointer;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
+    min-width: 54px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    color: var(--core);
+    box-shadow: none;
+  }
+  #chat-fab:hover {
+    border-color: rgba(245,158,11,0.4);
+    box-shadow: 0 4px 18px rgba(245,158,11,0.2);
+  }
+  #chat-fab svg { width: 20px; height: 20px; flex-shrink: 0; }
+  #chat-fab-label {
+    font-family: 'Inconsolata', monospace; font-size: 8.5px;
+    text-transform: uppercase; letter-spacing: 0.1em;
+    color: var(--text-muted); line-height: 1;
+  }
+
+  /* ── Chat panel ───────────────────────────────────────────── */
+  #chat-container {
+    position: fixed; bottom: 142px; right: 20px; z-index: 400;
+    width: 360px; max-height: 500px;
+    background: var(--bg-panel); border: 1px solid var(--border);
+    border-radius: 12px; display: flex; flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.45);
+    transform: translateY(16px) scale(0.97); opacity: 0; pointer-events: none;
+    transition: transform 0.22s cubic-bezier(0.16,1,0.3,1), opacity 0.22s ease;
+  }
+  #chat-container.open {
+    transform: translateY(0) scale(1); opacity: 1; pointer-events: all;
+  }
+  #chat-container.panel-shifted { right: 320px; }
+
+  #chat-header {
+    padding: 11px 14px; border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 8px; flex-shrink: 0;
+    background: var(--bg-card);
+  }
+  #chat-header-title {
+    font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--text-secondary); font-weight: 600; flex: 1;
+  }
+  #chat-status {
+    font-size: 10px; color: var(--text-muted);
+    display: flex; align-items: center; gap: 5px; flex-shrink: 0;
+  }
+  .chat-dot {
+    width: 6px; height: 6px; border-radius: 50%; background: var(--text-muted);
+    flex-shrink: 0; transition: background 0.3s;
+  }
+  .chat-dot.ai { background: var(--domain); }
+  #chat-close {
+    width: 22px; height: 22px; border: 1px solid var(--border); border-radius: 3px;
+    background: transparent; color: var(--text-secondary); cursor: pointer;
+    font-size: 15px; line-height: 1; display: flex; align-items: center;
+    justify-content: center; transition: all 0.15s; flex-shrink: 0;
+  }
+  #chat-close:hover { background: rgba(255,255,255,0.05); color: var(--text-primary); }
+
+  #chat-messages {
+    flex: 1; overflow-y: auto; padding: 12px 14px 8px;
+    display: flex; flex-direction: column; gap: 9px;
+    scroll-behavior: smooth; min-height: 0;
+  }
+  .chat-msg {
+    max-width: 90%; padding: 8px 11px; border-radius: 8px;
+    font-size: 12.5px; line-height: 1.58; word-break: break-word;
+  }
+  .chat-msg.bot {
+    background: var(--bg-card); border: 1px solid var(--border);
+    color: var(--text-primary); align-self: flex-start;
+    border-radius: 4px 8px 8px 4px;
+  }
+  .chat-msg.user {
+    background: rgba(245,158,11,0.09); border: 1px solid rgba(245,158,11,0.2);
+    color: var(--text-primary); align-self: flex-end;
+    border-radius: 8px 4px 4px 8px;
+  }
+  .chat-msg.typing { color: var(--text-muted); font-style: italic; }
+  .chat-post-ref {
+    color: var(--core); text-decoration: underline dotted; cursor: pointer;
+    font-weight: 500;
+  }
+  .chat-post-ref:hover { text-decoration: underline; }
+
+  /* ── API key strip ────────────────────────────────────────── */
+  #chat-key-strip {
+    padding: 9px 14px 10px; border-top: 1px solid var(--border);
+    background: rgba(245,158,11,0.03); flex-shrink: 0;
+  }
+  #chat-key-strip p {
+    font-size: 11px; color: var(--text-secondary); margin: 0 0 7px; line-height: 1.5;
+  }
+  #chat-key-strip p strong { color: var(--core); }
+  #chat-key-row { display: flex; gap: 6px; }
+  #chat-key-input {
+    flex: 1; font-family: 'Inconsolata', monospace; font-size: 11px;
+    background: var(--bg); border: 1px solid var(--border); border-radius: 4px;
+    color: var(--text-primary); padding: 5px 9px; outline: none;
+    transition: border-color 0.15s;
+  }
+  #chat-key-input:focus { border-color: rgba(245,158,11,0.4); }
+  #chat-key-input::placeholder { color: var(--text-muted); font-size: 10px; }
+  #chat-key-save {
+    font-size: 11px; padding: 5px 11px; border-radius: 4px;
+    border: 1px solid rgba(245,158,11,0.35); background: rgba(245,158,11,0.08);
+    color: var(--core); cursor: pointer; transition: background 0.15s; white-space: nowrap;
+  }
+  #chat-key-save:hover { background: rgba(245,158,11,0.18); }
+
+  /* ── Input row ────────────────────────────────────────────── */
+  #chat-input-row {
+    padding: 9px 12px 11px; border-top: 1px solid var(--border);
+    display: flex; gap: 7px; align-items: flex-end; flex-shrink: 0;
+  }
+  #chat-input {
+    flex: 1; font-size: 12.5px; line-height: 1.45;
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: 6px; color: var(--text-primary); padding: 7px 10px;
+    resize: none; outline: none; min-height: 34px; max-height: 88px;
+    overflow-y: auto; transition: border-color 0.15s; font-family: inherit;
+  }
+  #chat-input:focus { border-color: rgba(245,158,11,0.3); }
+  #chat-input::placeholder { color: var(--text-muted); }
+  #chat-send {
+    width: 34px; height: 34px; flex-shrink: 0; border-radius: 6px;
+    background: var(--core); border: none; cursor: pointer; color: #070c18;
+    display: flex; align-items: center; justify-content: center;
+    transition: opacity 0.15s;
+  }
+  #chat-send:hover { opacity: 0.85; }
+  #chat-send:disabled { opacity: 0.3; cursor: default; }
+  #chat-send svg { width: 15px; height: 15px; }
+
+  /* Light theme */
+  [data-theme='light'] #chat-container { box-shadow: 0 12px 40px rgba(15,23,42,0.14); }
+  [data-theme='light'] #chat-fab { background: rgba(242,245,251,0.9); }
+
+  /* Narrow screens */
+  @media (max-width: 500px) {
+    #chat-container { width: calc(100vw - 24px); right: 12px; }
+    #chat-container.panel-shifted { right: 12px; }
+  }
+
 </style>
 </head>
 <body>
@@ -763,9 +914,10 @@ function hexB(h){return parseInt(h.slice(5,7),16);}
 
 // Zoom layer
 const zoomG = svg.append('g').attr('id','zoom-g');
-svg.call(d3.zoom().scaleExtent([0.25, 4]).on('zoom', e => {
+const zoomBehavior = d3.zoom().scaleExtent([0.25, 4]).on('zoom', e => {
   zoomG.attr('transform', e.transform);
-}));
+});
+svg.call(zoomBehavior);
 
 // Force simulation
 const sim = d3.forceSimulation(allNodes)
@@ -1195,5 +1347,418 @@ themeBtn.addEventListener('click', () => {
     document.addEventListener("keydown", function (e) { if (e.key === "Escape") closeHelp(); });
   })();
 </script>
+
+<!-- ── Chatbot FAB ─────────────────────────────────────────── -->
+<button id="chat-fab" title="Ask about JK's posts" aria-label="Open chat" aria-expanded="false">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+       stroke-linecap="round" stroke-linejoin="round">
+    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+  </svg>
+  <span id="chat-fab-label">Chat</span>
+</button>
+
+<!-- ── Chat Panel ─────────────────────────────────────────── -->
+<div id="chat-container" role="dialog" aria-label="Chat assistant" aria-hidden="true">
+
+  <div id="chat-header">
+    <span id="chat-header-title">Ask the graph</span>
+    <span id="chat-status">
+      <span class="chat-dot" id="chat-dot"></span>
+      <span id="chat-status-text">Rule-based</span>
+    </span>
+    <button id="chat-close" aria-label="Close chat">&times;</button>
+  </div>
+
+  <div id="chat-messages" aria-live="polite"></div>
+
+  <div id="chat-key-strip">
+    <p><strong>Want real AI answers?</strong> Paste a free Gemini key below (get one at aistudio.google.com). Without it I use keyword matching.</p><p style="margin:0;font-size:10.5px;color:var(--text-muted);line-height:1.5;">&#128274; Your key is stored only in <em>your</em> browser's localStorage &mdash; it never leaves your machine.</p>
+    <div id="chat-key-row">
+      <input id="chat-key-input" type="password"
+             placeholder="AIza..." autocomplete="off" spellcheck="false">
+      <button id="chat-key-save">Save key</button>
+    </div>
+  </div>
+
+  <div id="chat-input-row">
+    <textarea id="chat-input" rows="1"
+              placeholder="Ask about a post, topic, or concept..."
+              aria-label="Chat message"></textarea>
+    <button id="chat-send" aria-label="Send" disabled>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+           stroke-linecap="round" stroke-linejoin="round">
+        <line x1="22" y1="2" x2="11" y2="13"/>
+        <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+      </svg>
+    </button>
+  </div>
+
+</div>
+
+<script>
+// ── Chatbot ──────────────────────────────────────────────────────────────────
+(function () {
+  'use strict';
+
+  // ── State ──────────────────────────────────────────────────────────────────
+  var CHAT = {
+    open: false,
+    apiKey: localStorage.getItem('jk-chat-key') || '',
+    history: [],
+    busy: false,
+    systemPrompt: null
+  };
+
+  // ── Build Gemini system prompt (called once, lazily) ───────────────────────
+  function buildChatContext() {
+    if (CHAT.systemPrompt) return;
+    var postsJson = JSON.stringify(POSTS.map(function(p) {
+      return { id: p.id, title: p.title, date: p.date,
+               format: p.format, phase: p.phase,
+               summary: p.summary, topics: p.topics, url: p.url };
+    }));
+    var topicsJson = JSON.stringify(TOPICS.map(function(t) {
+      return { id: t.id, label: t.label, cluster: t.cluster };
+    }));
+    CHAT.systemPrompt =
+      'You are a helpful assistant for JK\'s Thought Map — a knowledge graph of ' +
+      'Jayakumar Rajaretnam\'s LinkedIn posts on AI, data strategy, and enterprise technology.\n\n' +
+      'JK\'s focus: Agentic AI, Enterprise AI adoption, Retail/Commerce transformation, ' +
+      'Data strategy, AI governance, practical AI engineering.\n\n' +
+      'POSTS DATA (JSON):\n' + postsJson + '\n\n' +
+      'TOPICS DATA (JSON):\n' + topicsJson + '\n\n' +
+      'RULES:\n' +
+      '- Respond ONLY with valid JSON. Schema: {"text":"string","action":"postId or null","topicAction":"topicId or null"}\n' +
+      '- "text": your reply, 2-4 sentences max unless asked for detail.\n' +
+      '- "action": the single most relevant post ID (e.g. "p12") when discussing a specific post, else null.\n' +
+      '- "topicAction": a topic ID (e.g. "AgenticAI") when discussing a topic cluster, else null.\n' +
+      '- When asked to "show", "open", or "highlight" something, set the action field.\n' +
+      '- Never fabricate posts. Only reference posts from the data above.\n' +
+      '- If asked about JK personally, describe him as a Data & AI strategist.';
+  }
+
+  // ── Call Gemini 1.5 Flash REST API ─────────────────────────────────────────
+  async function callGemini(userText) {
+    buildChatContext();
+    var endpoint = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=' + CHAT.apiKey;
+
+    var contents = CHAT.history.slice(0, -1).map(function(h) {
+      return { role: h.role === 'model' ? 'model' : 'user', parts: [{ text: h.text }] };
+    });
+    contents.push({ role: 'user', parts: [{ text: userText }] });
+
+    var body = {
+      system_instruction: { parts: [{ text: CHAT.systemPrompt }] },
+      contents: contents,
+      generationConfig: {
+        temperature: 0.4,
+        maxOutputTokens: 512,
+        responseMimeType: 'application/json'
+      }
+    };
+
+    var res = await fetch(endpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    });
+
+    if (!res.ok) {
+      var errData = await res.json().catch(function() { return {}; });
+      if (res.status === 429) throw new Error('Rate limit hit. Try again in a moment.');
+      if (res.status === 400 || res.status === 403) throw new Error('API key invalid. Check it at aistudio.google.com.');
+      throw new Error((errData.error && errData.error.message) || ('HTTP ' + res.status));
+    }
+
+    var data = await res.json();
+    return (data.candidates &&
+            data.candidates[0] &&
+            data.candidates[0].content &&
+            data.candidates[0].content.parts &&
+            data.candidates[0].content.parts[0].text) ||
+           '{"text":"No response received.","action":null,"topicAction":null}';
+  }
+
+  // ── Rule-based fallback engine ─────────────────────────────────────────────
+  function ruleBasedAnswer(rawText) {
+    var q = rawText.toLowerCase();
+
+    // Match by post ID
+    for (var i = 0; i < POSTS.length; i++) {
+      var p = POSTS[i];
+      if (q.indexOf(p.id.toLowerCase()) !== -1) {
+        return { text: '"' + p.title + '" (' + fmtDate(p.date) + ') — ' + p.summary, action: p.id, topicAction: null };
+      }
+    }
+
+    // Match by post title keywords (2+ significant words)
+    for (var i = 0; i < POSTS.length; i++) {
+      var p = POSTS[i];
+      var words = p.title.toLowerCase().split(/\s+/).filter(function(w) { return w.length > 3; });
+      var hits = words.filter(function(w) { return q.indexOf(w) !== -1; });
+      if (hits.length >= 2) {
+        return { text: '"' + p.title + '" (' + fmtDate(p.date) + ') — ' + p.summary, action: p.id, topicAction: null };
+      }
+    }
+
+    // Match by topic
+    for (var i = 0; i < TOPICS.length; i++) {
+      var t = TOPICS[i];
+      if (q.indexOf(t.label.toLowerCase()) !== -1 || q.indexOf(t.id.toLowerCase()) !== -1) {
+        var rel = POSTS.filter(function(p) { return p.topics.indexOf(t.id) !== -1; });
+        var titles = rel.slice(0, 3).map(function(p) { return '"' + p.title + '"'; }).join(', ');
+        var more = rel.length > 3 ? ' and ' + (rel.length - 3) + ' more' : '';
+        return {
+          text: 'The topic "' + t.label + '" spans ' + rel.length + ' post' + (rel.length !== 1 ? 's' : '') + ': ' + titles + more + '.',
+          action: null, topicAction: t.id
+        };
+      }
+    }
+
+    // Year query
+    var yrM = q.match(/\b(2025|2026)\b/);
+    if (yrM) {
+      var yr = yrM[1];
+      var yPosts = POSTS.filter(function(p) { return p.date.slice(0,4) === yr; });
+      if (yPosts.length) {
+        var tList = yPosts.map(function(p) { return '"' + p.title + '"'; }).join(', ');
+        return { text: 'In ' + yr + ' JK published ' + yPosts.length + ' posts: ' + tList + '.', action: null, topicAction: null };
+      }
+    }
+
+    // Phase query
+    var phM = q.match(/phase\s*([1-4])/i);
+    if (phM) {
+      var ph = parseInt(phM[1]);
+      var phLabels = { 1:'Analyst Reports', 2:'Confidence Injection', 3:'Practitioner Narrative', 4:'Most Refined' };
+      var phPosts = POSTS.filter(function(p) { return p.phase === ph; });
+      var tList = phPosts.map(function(p) { return '"' + p.title + '"'; }).join(', ');
+      return { text: 'Phase ' + ph + ' (' + phLabels[ph] + ') has ' + phPosts.length + ' post' + (phPosts.length !== 1 ? 's' : '') + ': ' + tList + '.', action: null, topicAction: null };
+    }
+
+    // Latest / newest
+    if (q.indexOf('latest') !== -1 || q.indexOf('recent') !== -1 || q.indexOf('newest') !== -1) {
+      var latest = POSTS.slice().sort(function(a,b) { return b.date.localeCompare(a.date); })[0];
+      return { text: 'Most recent: "' + latest.title + '" (' + fmtDate(latest.date) + ') — ' + latest.summary, action: latest.id, topicAction: null };
+    }
+
+    // Count
+    if (q.indexOf('how many') !== -1 || q.indexOf('total') !== -1 || q.indexOf('count') !== -1) {
+      return { text: 'The Thought Map has ' + POSTS.length + ' posts across ' + TOPICS.length + ' topic clusters, spanning Jan 2025 to Apr 2026 across 4 writing phases.', action: null, topicAction: null };
+    }
+
+    // About JK
+    if (q.indexOf('who is jk') !== -1 || q.indexOf('about jk') !== -1 || q.indexOf('who are you') !== -1) {
+      return { text: 'JK (Jayakumar Rajaretnam) is a Data & AI strategist focused on agentic AI systems, enterprise data architecture, and retail/commerce transformation. This graph maps ' + POSTS.length + ' of his LinkedIn posts across ' + TOPICS.length + ' topic clusters.', action: null, topicAction: null };
+    }
+
+    // Fallback
+    var samples = POSTS.slice(0,3).map(function(p) { return '"' + p.title + '"'; }).join(', ');
+    return {
+      text: 'I can answer questions about JK\'s ' + POSTS.length + ' posts and ' + TOPICS.length + ' topics. Try: a post title, a topic like "Agentic AI", "posts from 2026", "phase 4", or "latest post". Examples: ' + samples + '.',
+      action: null, topicAction: null
+    };
+  }
+
+  // ── Render a message bubble ────────────────────────────────────────────────
+  function renderMessage(role, text, isTyping) {
+    var msgs = document.getElementById('chat-messages');
+    var div = document.createElement('div');
+    div.className = 'chat-msg ' + role + (isTyping ? ' typing' : '');
+    div.textContent = text;
+    msgs.appendChild(div);
+    msgs.scrollTop = msgs.scrollHeight;
+    return div;
+  }
+
+  // ── Make post titles in a bot message clickable ────────────────────────────
+  function linkifyPostRefs(el) {
+    var html = el.textContent;
+    for (var i = 0; i < POSTS.length; i++) {
+      var p = POSTS[i];
+      var escaped = p.title.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      var re = new RegExp('"(' + escaped + ')"', 'gi');
+      html = html.replace(re, '"<span class="chat-post-ref" data-id="' + p.id + '" tabindex="0" role="button">$1</span>"');
+    }
+    el.innerHTML = html;
+    var refs = el.querySelectorAll('.chat-post-ref');
+    for (var j = 0; j < refs.length; j++) {
+      (function(span) {
+        span.addEventListener('click', function() { handleBotAction(span.dataset.id, null); });
+        span.addEventListener('keydown', function(e) { if (e.key === 'Enter') handleBotAction(span.dataset.id, null); });
+      })(refs[j]);
+    }
+  }
+
+  // ── Trigger graph actions from bot response ────────────────────────────────
+  function handleBotAction(action, topicAction) {
+    var target = null;
+    if (action) target = allNodes.find(function(n) { return n.id === action; });
+    else if (topicAction) target = allNodes.find(function(n) { return n.id === topicAction; });
+    if (!target) return;
+
+    highlightConnected(target);
+    if (target.nodeType === 'post') openPanel(target);
+    centerOnNode(target);
+  }
+
+  // ── Pan + zoom the graph to a node ────────────────────────────────────────
+  function centerOnNode(node) {
+    if (!node.x || !node.y) return;
+    var cw = document.getElementById('canvas').clientWidth;
+    var ch = document.getElementById('canvas').clientHeight;
+    var s = 1.8;
+    var tx = cw / 2 - s * node.x;
+    var ty = ch / 2 - s * node.y;
+    d3.select('#svg')
+      .transition().duration(700)
+      .call(zoomBehavior.transform, d3.zoomIdentity.translate(tx, ty).scale(s));
+  }
+
+  // ── Send a message ─────────────────────────────────────────────────────────
+  async function sendMessage(text) {
+    text = text.trim();
+    if (!text || CHAT.busy) return;
+    CHAT.busy = true;
+    document.getElementById('chat-send').disabled = true;
+    document.getElementById('chat-input').value = '';
+    autoResize();
+
+    renderMessage('user', text);
+    CHAT.history.push({ role: 'user', text: text });
+
+    var typingEl = renderMessage('bot', '...', true);
+
+    var botText = '', action = null, topicAction = null;
+
+    if (CHAT.apiKey) {
+      try {
+        var raw = await callGemini(text);
+        var parsed = JSON.parse(raw);
+        botText = parsed.text || raw;
+        action = parsed.action || null;
+        topicAction = parsed.topicAction || null;
+      } catch (err) {
+        botText = 'Sorry, AI call failed: ' + err.message + '. Falling back to keyword matching. ' + ruleBasedAnswer(text).text;
+        action = ruleBasedAnswer(text).action;
+        topicAction = ruleBasedAnswer(text).topicAction;
+      }
+    } else {
+      var result = ruleBasedAnswer(text);
+      botText = result.text;
+      action = result.action;
+      topicAction = result.topicAction;
+    }
+
+    typingEl.remove();
+    var msgEl = renderMessage('bot', botText);
+    linkifyPostRefs(msgEl);
+
+    if (action || topicAction) handleBotAction(action, topicAction);
+
+    CHAT.history.push({ role: 'model', text: botText });
+    if (CHAT.history.length > 20) CHAT.history = CHAT.history.slice(-20);
+
+    CHAT.busy = false;
+    document.getElementById('chat-send').disabled = !document.getElementById('chat-input').value.trim();
+  }
+
+  // ── Auto-resize textarea ───────────────────────────────────────────────────
+  function autoResize() {
+    var ta = document.getElementById('chat-input');
+    ta.style.height = 'auto';
+    ta.style.height = Math.min(ta.scrollHeight, 88) + 'px';
+  }
+
+  // ── Update AI/rule-based status indicator ─────────────────────────────────
+  function updateStatus() {
+    var dot = document.getElementById('chat-dot');
+    var txt = document.getElementById('chat-status-text');
+    var strip = document.getElementById('chat-key-strip');
+    if (CHAT.apiKey) {
+      dot.classList.add('ai');
+      txt.textContent = 'AI mode';
+      strip.style.display = 'none';
+    } else {
+      dot.classList.remove('ai');
+      txt.textContent = 'Rule-based';
+      strip.style.display = '';
+    }
+  }
+
+  // ── Init ──────────────────────────────────────────────────────────────────
+  var fab       = document.getElementById('chat-fab');
+  var container = document.getElementById('chat-container');
+  var closeBtn  = document.getElementById('chat-close');
+  var input     = document.getElementById('chat-input');
+  var sendBtn   = document.getElementById('chat-send');
+  var keyInput  = document.getElementById('chat-key-input');
+  var keySave   = document.getElementById('chat-key-save');
+  var panel     = document.getElementById('panel');
+
+  function openChat() {
+    CHAT.open = true;
+    container.classList.add('open');
+    container.setAttribute('aria-hidden', 'false');
+    fab.setAttribute('aria-expanded', 'true');
+    if (panel.classList.contains('open')) container.classList.add('panel-shifted');
+    updateStatus();
+    var msgs = document.getElementById('chat-messages');
+    if (!msgs.children.length) {
+      renderMessage('bot', 'Hi! I know all ' + POSTS.length + ' of JK\'s posts. Ask me about a topic, post title, or concept — or try "show me the latest post".');
+    }
+    setTimeout(function() { input.focus(); }, 280);
+  }
+
+  function closeChat() {
+    CHAT.open = false;
+    container.classList.remove('open', 'panel-shifted');
+    container.setAttribute('aria-hidden', 'true');
+    fab.setAttribute('aria-expanded', 'false');
+  }
+
+  fab.addEventListener('click', function() { CHAT.open ? closeChat() : openChat(); });
+  closeBtn.addEventListener('click', closeChat);
+  document.addEventListener('keydown', function(e) { if (e.key === 'Escape' && CHAT.open) closeChat(); });
+
+  // Shift chat when detail panel opens/closes
+  var panelObserver = new MutationObserver(function() {
+    if (CHAT.open) {
+      container.classList.toggle('panel-shifted', panel.classList.contains('open'));
+    }
+  });
+  panelObserver.observe(panel, { attributes: true, attributeFilter: ['class'] });
+
+  // Input events
+  input.addEventListener('input', function() {
+    autoResize();
+    sendBtn.disabled = !input.value.trim() || CHAT.busy;
+  });
+  input.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      if (!sendBtn.disabled) sendMessage(input.value);
+    }
+  });
+  sendBtn.addEventListener('click', function() { sendMessage(input.value); });
+
+  // API key save
+  keySave.addEventListener('click', function() {
+    var k = keyInput.value.trim();
+    if (!k) return;
+    CHAT.apiKey = k;
+    localStorage.setItem('jk-chat-key', k);
+    keyInput.value = '';
+    updateStatus();
+    renderMessage('bot', 'Gemini API key saved. I am now in AI mode — powered by Gemini 1.5 Flash.');
+    if (!CHAT.open) openChat();
+  });
+
+  // Apply saved key status on load
+  updateStatus();
+
+})();
+</script>
+
 </body>
 </html>
